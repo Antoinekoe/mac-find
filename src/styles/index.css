@@ -2,3 +2,60 @@ body {
   margin: 0;
   padding: 0;
 }
+
+.form-container {
+  position: absolute;
+  right: 0;
+  left: 0;
+  margin: 0 auto;
+  margin-top: 10px;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(3px); /* Blur effect */
+  box-shadow: 2px 2px 5px black;
+  padding: 10px 0px;
+  width: 60%;
+}
+
+.form-searchfield {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.form-input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.form-input > input {
+  border-radius: 5px;
+  border: 1px solid black;
+}
+
+.restaurant-selected {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.6);
+  bottom: 0;
+  z-index: 1500;
+  width: 100%;
+  background-color: white;
+}
+
+.li-search:hover {
+  cursor: pointer;
+}

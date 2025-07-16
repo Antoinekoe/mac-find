@@ -1,10 +1,21 @@
 import Map from "../components/Map";
+import SearchField from "../components/SearchField";
+import RestaurantSelected from "../components/RestaurantSelected";
+import { useState } from "react";
 
 function HomePage() {
+  const [selectedLocation, setSelectedLocation] = useState([]);
+
+  function handleLocationSelect(location) {
+    const newLocation = [location.lat, location.lon];
+    setSelectedLocation(newLocation);
+  }
   return (
-    <div id="container">
-      <Map />
-    </div>
+    <>
+      <SearchField onLocationSelect={handleLocationSelect} />
+      <Map selectedLocation={selectedLocation} />
+      <RestaurantSelected />
+    </>
   );
 }
 
