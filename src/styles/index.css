@@ -44,9 +44,12 @@ body {
 
 .restaurant-selected {
   position: absolute;
+  box-sizing: border-box;
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: center;
+
+  padding: 20px 20px;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
   box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.6);
@@ -56,6 +59,54 @@ body {
   background-color: white;
 }
 
+.info-restaurant-selected {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 30px;
+  width: 30%;
+  margin: 0 auto;
+}
+
+.info-restaurant-not-selected {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  width: 30%;
+  margin: 0 auto;
+}
+
+@media (max-width: 780px) {
+  .info-restaurant-selected {
+    width: 80%;
+  }
+  .info-restaurant-not-selected {
+    width: 80%;
+  }
+}
+
 .li-search:hover {
   cursor: pointer;
+}
+
+.info-restaurant-selected > p {
+  margin: 0;
+  padding: 0;
+  font-weight: 900;
+}
+
+.info-restaurant-not-selected > p {
+  margin: 0;
+  padding: 0;
+  font-weight: 900;
+}
+
+.button-choose {
+  background-color: #ffa500;
+  font-weight: 900;
+  border-radius: 5px;
+  border: none;
+  padding: 10px 15px;
 }

@@ -6,9 +6,7 @@ import { useState } from "react";
 function HomePage() {
   const [selectedLocation, setSelectedLocation] = useState([]);
   const [selectedLocationName, setSelectedLocationName] = useState([]);
-  const [selectedMcDonalds, setSelectedMcDonalds] = useState(
-    "Aucun restaurant sélectionné"
-  );
+  const [selectedMcDonalds, setSelectedMcDonalds] = useState(null);
 
   function handleLocationSelect(location) {
     const newLocation = [location.lat, location.lon];
@@ -19,9 +17,8 @@ function HomePage() {
     setSelectedLocationName(newLocationName);
   }
   function handleSelectedMcDonalds(mcdonaldsSelected) {
-    const newMcdonaldselected = [mcdonaldsSelected];
-    console.log(newMcdonaldselected);
-    setSelectedMcDonalds(newMcdonaldselected);
+    console.log(selectedMcDonalds);
+    setSelectedMcDonalds(mcdonaldsSelected);
   }
   return (
     <>
@@ -32,9 +29,9 @@ function HomePage() {
       <Map
         selectedLocation={selectedLocation}
         selectedLocationName={selectedLocationName}
-        selectedMcdonalds={handleSelectedMcDonalds}
+        addSelectedMcdonalds={handleSelectedMcDonalds}
       />
-      <RestaurantSelected />
+      <RestaurantSelected selectedMcDonalds={selectedMcDonalds} />
     </>
   );
 }

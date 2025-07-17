@@ -2,6 +2,7 @@ import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { duration } from "@mui/material/styles";
 
 function MapController({ selectedLocation, selectedLocationName }) {
   const map = useMap();
@@ -18,7 +19,7 @@ function MapController({ selectedLocation, selectedLocationName }) {
   return null;
 }
 
-function Map({ selectedLocation, selectedLocationName, selectedMcdonalds }) {
+function Map({ selectedLocation, selectedLocationName, addSelectedMcdonalds }) {
   const [mcdonaldsResults, setMcdonaldsResults] = useState([]);
 
   async function addMcDonaldsResults(selectedLocationName) {
@@ -55,11 +56,27 @@ function Map({ selectedLocation, selectedLocationName, selectedMcdonalds }) {
 
       {mcdonaldsResults.map((mcdo, index) => {
         return (
-          <Marker key={index} position={[mcdo.lat, mcdo.lon]}>
+          <Marker
+            key={index}
+            position={[mcdo.lat, mcdo.lon]}
+            eventHandlers={{
+              click: (e) => {
+                const map = e.target._map;
+                map.flyTo([mcdo.lat, mcdo.lon]),
+                  map.getZoom(),
+                  {
+                    animate: true,
+                    duration: 0,
+                  };
+              },
+            }}
+          >
             <Popup>
               <h3>{mcdo.name}</h3>
               <p>{mcdo.display_name}</p>
-              <button onClick={() => selectedMcdonalds(mcdo)}>Choisir</button>
+              <button onClick={() => addSelectedMcdonalds(mcdo)}>
+                Choisir
+              </button>
             </Popup>
           </Marker>
         );
