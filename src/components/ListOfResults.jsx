@@ -5,7 +5,7 @@ function ListOfResults(props) {
     props.onAdd(lat, lon, name);
   }
   return (
-    <ul className="flex flex-col justify-center gap-2.5 p-0 m-0 w-3/4 md:w-4/5">
+    <ul className="flex flex-col justify-center gap-2.5 p-0 m-0 w-3/4 md:w-1/2">
       {cities.map((city, index) => {
         return (
           <li

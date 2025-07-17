@@ -17,11 +17,20 @@ function SearchField(props) {
       const response = await axios.get(
         `http://localhost:3001/api/search?q=${encodeURIComponent(input)}`
       );
-      const uniqueResults = response.data.filter(
-        (mcdo, index, self) =>
-          index ===
-          self.findIndex((obj) => obj.display_name === mcdo.display_name)
-      );
+      const uniqueResults = response.data
+        .filter(
+          (mcdo, index, self) =>
+            index ===
+            self.findIndex((obj) => {
+              // Prendre seulement la première partie (avant la virgule)
+              const objCity = obj.display_name.split(",")[0].trim();
+              const mcdoCity = mcdo.display_name.split(",")[0].trim();
+              return objCity === mcdoCity;
+            })
+        )
+        .filter((mcdo) => mcdo.addresstype !== "tourism")
+        .filter((mcdo) => mcdo.addresstype !== "attraction")
+        .filter((mcdo) => mcdo.addresstype !== "accommodation");
       setSearchResults(uniqueResults);
     } catch (error) {
       console.log("Error getting data", error);
@@ -44,8 +53,8 @@ function SearchField(props) {
   return (
     <div className="absolute left-0 right-0 mx-auto mt-2.5 rounded-[15px] flex justify-center items-center z-[1000] bg-white/50 backdrop-blur-[3px] shadow-[2px_2px_5px_black] py-2.5 w-3/5 md:w-4/5">
       <form className="flex flex-col justify-center items-center gap-2.5 w-full">
-        <label>Rechercher un restaurant</label>
-        <div className="flex justify-center items-center w-3/4 gap-2.5 md:w-4/5">
+        <label className="font-bold">Rechercher un restaurant</label>
+        <div className="flex justify-center items-center w-3/4 gap-2.5 md:w-1/2">
           <input
             type="input"
             value={input}

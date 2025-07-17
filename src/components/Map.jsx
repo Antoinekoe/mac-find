@@ -3,7 +3,7 @@ import "leaflet/dist/leaflet.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-function MapController({ selectedLocation }) {
+function MapController({ selectedLocation, isOpenPopup }) {
   const map = useMap();
 
   useEffect(() => {
@@ -15,11 +15,18 @@ function MapController({ selectedLocation }) {
     }
   }, [selectedLocation, map]);
 
+  useEffect(() => {
+    if (isOpenPopup) {
+      map.closePopup();
+    }
+  }, [isOpenPopup, map]);
+
   return null;
 }
 
 function Map({ selectedLocation, selectedLocationName, addSelectedMcdonalds }) {
   const [mcdonaldsResults, setMcdonaldsResults] = useState([]);
+  const [openPopup, setOpenPopup] = useState(false);
 
   async function addMcDonaldsResults(selectedLocationName) {
     try {
@@ -40,6 +47,14 @@ function Map({ selectedLocation, selectedLocationName, addSelectedMcdonalds }) {
     }
   }, [selectedLocationName]);
 
+  function handleSelectedClick(mcdo) {
+    addSelectedMcdonalds(mcdo);
+    setOpenPopup(true);
+    setInterval(() => {
+      setOpenPopup(false);
+    }, 1000);
+  }
+
   return (
     <MapContainer
       style={{ height: "100vh", width: "100%" }}
@@ -47,7 +62,10 @@ function Map({ selectedLocation, selectedLocationName, addSelectedMcdonalds }) {
       zoom={13}
       scrollWheelZoom={false}
     >
-      <MapController selectedLocation={selectedLocation} />
+      <MapController
+        selectedLocation={selectedLocation}
+        isOpenPopup={openPopup}
+      />
 
       {mcdonaldsResults.map((mcdo, index) => {
         return (
@@ -71,7 +89,7 @@ function Map({ selectedLocation, selectedLocationName, addSelectedMcdonalds }) {
               <p>{mcdo.display_name}</p>
               <button
                 className="bg-[#ffa500] font-black rounded-md border-0 px-2.5 py-3 text-black hover:cursor-pointer"
-                onClick={() => addSelectedMcdonalds(mcdo)}
+                onClick={() => handleSelectedClick(mcdo)}
               >
                 Choisir
               </button>
