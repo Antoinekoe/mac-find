@@ -17,7 +17,6 @@ function HomePage() {
     setSelectedLocationName(newLocationName);
   }
   function handleSelectedMcDonalds(mcdonaldsSelected) {
-    console.log(selectedMcDonalds);
     setSelectedMcDonalds(mcdonaldsSelected);
   }
   return (

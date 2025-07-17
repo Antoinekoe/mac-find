@@ -2,9 +2,8 @@ import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { duration } from "@mui/material/styles";
 
-function MapController({ selectedLocation, selectedLocationName }) {
+function MapController({ selectedLocation }) {
   const map = useMap();
 
   useEffect(() => {
@@ -29,7 +28,6 @@ function Map({ selectedLocation, selectedLocationName, addSelectedMcdonalds }) {
           selectedLocationName
         )}`
       );
-      console.log(response.data);
       setMcdonaldsResults(response.data);
     } catch (error) {
       console.log("Error trying to req proxy :", error);
@@ -49,10 +47,7 @@ function Map({ selectedLocation, selectedLocationName, addSelectedMcdonalds }) {
       zoom={13}
       scrollWheelZoom={false}
     >
-      <MapController
-        selectedLocation={selectedLocation}
-        selectedLocationName={selectedLocationName}
-      />
+      <MapController selectedLocation={selectedLocation} />
 
       {mcdonaldsResults.map((mcdo, index) => {
         return (
@@ -72,9 +67,12 @@ function Map({ selectedLocation, selectedLocationName, addSelectedMcdonalds }) {
             }}
           >
             <Popup>
-              <h3>{mcdo.name}</h3>
+              <h3 className="font-black">{mcdo.name}</h3>
               <p>{mcdo.display_name}</p>
-              <button onClick={() => addSelectedMcdonalds(mcdo)}>
+              <button
+                className="bg-[#ffa500] font-black rounded-md border-0 px-2.5 py-3 text-black hover:cursor-pointer"
+                onClick={() => addSelectedMcdonalds(mcdo)}
+              >
                 Choisir
               </button>
             </Popup>
