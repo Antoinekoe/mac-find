@@ -1,8 +1,9 @@
 import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-function MapController({ selectedLocation }) {
+function MapController({ selectedLocation, selectedLocationName }) {
   const map = useMap();
 
   useEffect(() => {
@@ -13,10 +14,33 @@ function MapController({ selectedLocation }) {
       });
     }
   }, [selectedLocation, map]);
+
   return null;
 }
 
-function Map({ selectedLocation }) {
+function Map({ selectedLocation, selectedLocationName, selectedMcdonalds }) {
+  const [mcdonaldsResults, setMcdonaldsResults] = useState([]);
+
+  async function addMcDonaldsResults(selectedLocationName) {
+    try {
+      const response = await axios.get(
+        `http://localhost:3001/api/search/mcdo?q=${encodeURIComponent(
+          selectedLocationName
+        )}`
+      );
+      console.log(response.data);
+      setMcdonaldsResults(response.data);
+    } catch (error) {
+      console.log("Error trying to req proxy :", error);
+    }
+  }
+
+  useEffect(() => {
+    if (selectedLocationName) {
+      addMcDonaldsResults(selectedLocationName);
+    }
+  }, [selectedLocationName]);
+
   return (
     <MapContainer
       style={{ height: "100vh", width: "100%" }}
@@ -24,7 +48,22 @@ function Map({ selectedLocation }) {
       zoom={13}
       scrollWheelZoom={false}
     >
-      <MapController selectedLocation={selectedLocation} />
+      <MapController
+        selectedLocation={selectedLocation}
+        selectedLocationName={selectedLocationName}
+      />
+
+      {mcdonaldsResults.map((mcdo, index) => {
+        return (
+          <Marker key={index} position={[mcdo.lat, mcdo.lon]}>
+            <Popup>
+              <h3>{mcdo.name}</h3>
+              <p>{mcdo.display_name}</p>
+              <button onClick={() => selectedMcdonalds(mcdo)}>Choisir</button>
+            </Popup>
+          </Marker>
+        );
+      })}
 
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

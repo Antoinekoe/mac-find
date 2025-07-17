@@ -24,8 +24,9 @@ function SearchField(props) {
     }
   }
 
-  function addClicked(lat, lon) {
+  function addClicked(lat, lon, name) {
     props.onLocationSelect({ lat, lon });
+    props.onLocationNameSelect(name);
     setSearchResults([]);
   }
 
