@@ -36,7 +36,7 @@ app.get("/api/search/mcdo", async (req, res) => {
     );
     res.json(response.data);
   } catch (error) {
-    res.status(500).json({ error: "Search failed" });
+    res.status(500).json({ error: "Search failed" }, error);
   }
 });
 

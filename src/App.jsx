@@ -1,4 +1,5 @@
-import HomePage from "./pages/Home";
+// Main App component - renders the HomePage
+import HomePage from "./pages/HomePage";
 
 function App() {
   return <HomePage />;
